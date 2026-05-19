@@ -1,39 +1,40 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
-
-// Import Routes
-const userRoutes = require('./routes/userRoutes');
-const projectRoutes = require('./routes/projectRoutes');
-const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
 // Middleware
-// Configure CORS to specifically allow your frontend at localhost:3000
-app.use(cors({
-    origin: "http://localhost:3000"
-}));
+app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB Atlas!'))
-  .catch((err) => console.error('Could not connect to MongoDB:', err));
+// --- YOUR API ROUTES ---
+// Make sure all your API routes (e.g., app.use('/api', ...)) 
+// are defined BEFORE the static file serving code below.
 
-// Routes
-app.use('/api/users', userRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/tasks', taskRoutes);
-
-// Basic Route to check if server is running
-app.get('/', (req, res) => {
-    res.send('Team Task Manager Backend is running!');
+// Example route:
+app.get('/api/test', (req, res) => {
+    res.json({ message: "Backend is running!" });
 });
 
-// Start Server
+// --- PRODUCTION SETUP ---
+
+// 1. Serve static files from the build folder
+app.use(express.static(path.join(__dirname, 'build')));
+
+// 2. Handle all other routes by serving the index.html file
+// This ensures that React Router works correctly in production
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// --- DATABASE & SERVER START ---
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    })
+    .catch((err) => console.log(err));
