@@ -1,0 +1,108 @@
+/* General Colors */
+:root {
+  --primary-blue: #0056d2;
+  --bg-color: #f7f9fc;
+  --card-bg: #ffffff;
+  --text-main: #333333;
+  --status-todo: #ff9800; /* Orange */
+  --status-inprogress: #2196f3; /* Blue */
+  --status-done: #4caf50; /* Green */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Header */
+.dashboard-header {
+  background-color: var(--primary-blue);
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h1 { margin: 0; font-size: 1.5rem; }
+
+.role-tag {
+  background-color: white;
+  color: var(--primary-blue);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+/* Admin Section */
+.admin-actions {
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Project Cards Grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.2s;
+}
+
+.project-card:hover { transform: translateY(-5px); }
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 10px;
+}
+
+.project-card h3 { margin: 0; color: var(--primary-blue); }
+
+.project-desc { color: #666; font-size: 0.9rem; margin-bottom: 15px; }
+
+/* Tasks Section */
+.task-section h4 { margin-top: 20px; font-size: 1rem; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+
+.task-list { display: flex; flex-direction: column; gap: 10px; }
+
+.task-item {
+  background-color: #f1f3f4;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-status {
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+/* Status Colors */
+.status-todo .task-status { background-color: #ffe0b2; color: #e65100; }
+.status-inprogress .task-status { background-color: #bbdefb; color: #0d47a1; }
+.status-done .task-status { background-color: #c8e6c9; color: #1b5e20; }
