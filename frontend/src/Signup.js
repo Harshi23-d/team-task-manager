@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Auth.css'; // Ensure this file exists in frontend/src
+import './Auth.css';
 
 function Signup() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'Member' });
@@ -8,10 +8,13 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/users/signup', formData);
+      // FIX: Use relative path '/api/users/signup'
+      await axios.post('/api/users/signup', formData);
       alert('User registered successfully!');
     } catch (err) {
-      alert('Error registering user');
+      console.error(err);
+      // More descriptive error handling for your demo
+      alert('Error registering user: ' + (err.response?.data?.message || 'Check your input'));
     }
   };
 
@@ -21,19 +24,25 @@ function Signup() {
       <input 
         type="text" 
         placeholder="Name" 
+        value={formData.name}
         onChange={(e) => setFormData({...formData, name: e.target.value})} 
+        required
       />
       <input 
         type="email" 
         placeholder="Email" 
+        value={formData.email}
         onChange={(e) => setFormData({...formData, email: e.target.value})} 
+        required
       />
       <input 
         type="password" 
         placeholder="Password" 
+        value={formData.password}
         onChange={(e) => setFormData({...formData, password: e.target.value})} 
+        required
       />
-      <select onChange={(e) => setFormData({...formData, role: e.target.value})}>
+      <select value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})}>
         <option value="Member">Member</option>
         <option value="Admin">Admin</option>
       </select>
